@@ -3,8 +3,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.github.saturnism.infinispan-contrib</groupId>
-		<artifactId>infinispan-contrib</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+		<artifactId>parent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+		<relativePath>../parent/pom.xml</relativePath>
 	</parent>
 	<artifactId>jsr223-mapreduce</artifactId>
 	<dependencies>

@@ -7,8 +7,7 @@
 		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>../parent/pom.xml</relativePath>
 	</parent>
-	<artifactId>collections</artifactId>
-	<packaging>jar</packaging>
+	<artifactId>resource-bundle</artifactId>
 	<dependencies>
 		<dependency>
 			<groupId>org.infinispan</groupId>
@@ -16,8 +15,27 @@
 		</dependency>
 		<dependency>
 			<groupId>org.infinispan</groupId>
+			<artifactId>infinispan-client-hotrod</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.infinispan</groupId>
 			<artifactId>infinispan-core</artifactId>
 			<type>test-jar</type>
+		</dependency>
+		<dependency>
+			<groupId>org.infinispan</groupId>
+			<artifactId>infinispan-client-hotrod</artifactId>
+			<type>test-jar</type>
+		</dependency>
+		<dependency>
+			<groupId>org.infinispan</groupId>
+			<artifactId>infinispan-server-hotrod</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.github.saturnism.infinispan-contrib</groupId>
+			<artifactId>collections</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 </project>

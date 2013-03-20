@@ -28,6 +28,7 @@
 		<groupId>org.infinispan</groupId>
 		<artifactId>infinispan-parent</artifactId>
 		<version>5.2.1.Final</version>
+		<relativePath />
 	</parent>
 	
 	<groupId>com.github.saturnism.infinispan-contrib</groupId>
@@ -63,11 +64,39 @@
 				<groupId>org.infinispan</groupId>
 				<artifactId>infinispan-core</artifactId>
 				<version>${version.infinispan}</version>
-				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.infinispan</groupId>
+				<artifactId>infinispan-client-hotrod</artifactId>
+				<version>${version.infinispan}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.infinispan</groupId>
+				<artifactId>infinispan-server-hotrod</artifactId>
+				<version>${version.infinispan}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.infinispan</groupId>
+				<artifactId>infinispan-cachestore-remote</artifactId>
+				<version>${version.infinispan}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.infinispan</groupId>
 				<artifactId>infinispan-core</artifactId>
+				<version>${version.infinispan}</version>
+				<type>test-jar</type>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.infinispan</groupId>
+				<artifactId>infinispan-client-hotrod</artifactId>
+				<version>${version.infinispan}</version>
+				<type>test-jar</type>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.infinispan</groupId>
+				<artifactId>infinispan-server-hotrod</artifactId>
 				<version>${version.infinispan}</version>
 				<type>test-jar</type>
 				<scope>test</scope>

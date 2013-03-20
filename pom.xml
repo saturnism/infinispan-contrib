@@ -43,5 +43,7 @@
       <module>cachestore</module>
       <module>collections</module>
       <module>jsr223-mapreduce</module>
+      <module>resource-bundle</module>
+      <module>examples</module>
    </modules>
 </project>
