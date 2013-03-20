@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="/WEB-INF/templates/default.xhtml">
+	<ui:define name="content">
+		<ui:param name="_cacheName" value="#{param.name}"/>
+		<h1>Cache - #{_cacheName}</h1>
+		
+		<p>
+			<h:link outcome="manager" value="View All Caches"/>
+			<h:outputText value="&#160;" />
+			<h:link outcome="cache" value="Refresh">
+				<f:param name="name" value="#{_cacheName}"/>
+			</h:link>
+		</p>
+
+		<h:panelGroup>
+			<ui:param name="_cacheInfo" value="#{cacheManagerService.getCache(_cacheName)}"/>
+			
+			<h:dataTable var="_bogus" value="1" class="caches">
+				<h:column>
+					<f:facet name="header">Cache</f:facet>
+					<h:link outcome="cache" value="#{_cacheName}">
+						<f:param name="name" value="#{_cacheName}"/>
+					</h:link>
+				</h:column>
+				<h:column>
+					<f:facet name="header">Entries</f:facet>
+					#{_cacheInfo.stats.currentNumberOfEntries}
+				</h:column>
+				<h:column>
+					<f:facet name="header">Retrievals</f:facet>
+					#{_cacheInfo.stats.retrievals}
+				</h:column>
+				<h:column>
+					<f:facet name="header">Stores</f:facet>
+					#{_cacheInfo.stats.stores}
+				</h:column>
+				<h:column>
+					<f:facet name="header">Hits</f:facet>
+					#{_cacheInfo.stats.hits}
+				</h:column>
+				<h:column>
+					<f:facet name="header">Hit Misses</f:facet>
+					#{_cacheInfo.stats.misses}
+				</h:column>
+				<h:column>
+					<f:facet name="header">Hit Ratio</f:facet>
+					<h:outputText id="hitRatio" value="#{_cacheInfo.stats.hits / (_cacheInfo.stats.hits + _cacheInfo.stats.misses)}" rendered="#{_cacheInfo.stats.hits + _cacheInfo.stats.misses > 0}">
+					    <f:convertNumber maxFractionDigits="2" type="percent" />
+					</h:outputText>
+				</h:column>
+				<h:column>
+					<f:facet name="header">Remove Hits</f:facet>
+					#{_cacheInfo.stats.removeHits}
+				</h:column>
+				<h:column>
+					<f:facet name="header">Remove Misses</f:facet>
+					#{_cacheInfo.stats.removeMisses}
+				</h:column>
+				<h:column>
+					<f:facet name="header">Evictions</f:facet>
+					#{_cacheInfo.stats.evictions}
+				</h:column>
+				<h:column>
+					<f:facet name="header">Action</f:facet>
+					<h:form>
+						<h:commandButton id="clearCacheGlobal" action="#{cacheManagerService.clearCache(_cacheName, 'global')}" value="Clear Global">
+							<f:param name="name" value="#{_cacheName}"/>
+						</h:commandButton>
+						<h:commandButton id="clearCacheLocal" action="#{cacheManagerService.clearCache(_cacheName, 'local')}" value="Clear Local">
+							<f:param name="name" value="#{_cacheName}"/>
+						</h:commandButton>
+						<h:commandButton id="clearStats" action="#{cacheManagerService.clearStats(_cacheName)}" value="Clear Stats">
+							<f:param name="name" value="#{_cacheName}"/>
+						</h:commandButton>
+					</h:form>
+				</h:column>
+			</h:dataTable>
+		</h:panelGroup>
+		<br/>
+		<h:panelGroup>
+			<h:form>
+				Key: <h:inputText value="#{cacheManagerService.key}" />
+				Type:
+				<h:selectOneMenu value="#{cacheManagerService.type}">
+					<f:selectItem id="string" itemLabel="String" itemValue="string"/>
+					<f:selectItem id="long" itemLabel="Long" itemValue="long"/>
+				</h:selectOneMenu>
+				<h:outputText value="&#160;" />
+				<h:commandButton action="#{cacheManagerService.getEntryAction(_cacheName)}" value="Retrieve">
+					<f:setPropertyActionListener target="#{cacheManagerService.action}" value="get"/>
+					<f:param name="name" value="#{_cacheName}"/>
+				</h:commandButton>
+				<br/>
+				<h:outputText value="Entry Found" rendered="#{facesContext.postback and cacheManagerService.action == 'get' and cacheManagerService.entryFound}" style="color: green;" />
+				<h:outputText value="Entry Not Found" rendered="#{facesContext.postback and cacheManagerService.action == 'get' and !cacheManagerService.entryFound}" style="color: red;" />
+			</h:form>
+		</h:panelGroup>
+		<br/>
+		<h:panelGroup>
+			<h:dataTable var="_key" value="#{_cacheInfo.localKeys.toArray()}" class="caches">
+				<h:column>
+					<f:facet name="header">Key</f:facet>
+					#{_key}
+				</h:column>
+				<h:column>
+					<f:facet name="header">Type</f:facet>
+					#{_key.getClass().getName()}
+				</h:column>
+				<h:column>
+					<f:facet name="header">Value</f:facet>
+					#{cacheManagerService.getEntry(_cacheName, _key)}
+				</h:column>
+				<h:column>
+					<f:facet name="header">Action</f:facet>
+					<h:form method="GET">
+						<h:commandButton id="removeEntryGlobal" action="#{cacheManagerService.removeEntry(_cacheName, _key, 'global')}" value="Remove Global">
+							<f:param name="name" value="#{_cacheName}"/>
+						</h:commandButton>
+						<h:commandButton id="removeEntryLocal" action="#{cacheManagerService.removeEntry(_cacheName, _key, 'local')}" value="Remove Local">
+							<f:param name="name" value="#{_cacheName}"/>
+						</h:commandButton>
+					</h:form>
+				</h:column>
+			</h:dataTable>
+		</h:panelGroup>
+   
+	</ui:define>
+</ui:composition>
